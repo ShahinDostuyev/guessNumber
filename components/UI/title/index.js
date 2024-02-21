@@ -1,7 +1,9 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, useWindowDimensions } from "react-native";
 
 function Title({ children }) {
-  return <Text style={styles.title}>{children}</Text>;
+  const { height } = useWindowDimensions();
+  const marginTop = height < 400 ? 10 : 40;
+  return <Text style={[styles.title,{marginTop:marginTop}]}>{children}</Text>;
 }
 
 export default Title;

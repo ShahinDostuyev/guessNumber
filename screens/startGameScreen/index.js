@@ -14,7 +14,7 @@ import Card from "../../components/UI/Card";
 import InstructionText from "../../components/UI/InstructionText";
 
 function StartGameScreen({ onConfirmationHandler }) {
-  const { width, height } = useWindowDimensions();
+  const { height } = useWindowDimensions();
 
   const [enteredNumber, setenteredNumber] = useState("");
 
@@ -43,7 +43,7 @@ function StartGameScreen({ onConfirmationHandler }) {
 
   const marginTop = height < 400 ? 30 : 100;
   return (
-    <View style={[styles.rootContainer, { marginTop: marginTop }]}>
+    <View style={[styles.rootContainer,{marginTop:marginTop}]}>
       <Title>Guess my number</Title>
       <Card>
         <InstructionText>Enter a number</InstructionText>
@@ -70,12 +70,10 @@ function StartGameScreen({ onConfirmationHandler }) {
 
 export default StartGameScreen;
 
-const deviceHeight = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    marginTop: deviceHeight < 400 ? 30 : 100,
     alignItems: "center",
   },
 

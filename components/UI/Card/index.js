@@ -7,7 +7,6 @@ function Card({children}) {
 
 export default Card;
 
-
 const styles= StyleSheet.create({
     card: {
         alignItems: "center",

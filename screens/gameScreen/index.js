@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Alert, FlatList, StyleSheet, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  View,
+} from "react-native";
 import Title from "../../components/UI/title";
 import NumberContainer from "../../components/game/NumberContainer";
 import PrimaryButton from "../../components/UI/primaryButton";
@@ -39,13 +44,10 @@ function GameScreen({ userNumber, onGameOver }) {
   }, []);
 
   const nextGuessHandler = (direction) => {
-    console.log(userNumber);
-    console.log(currentGuess);
     if (
       (direction === "lower " && currentGuess < userNumber) ||
       (direction === "greater" && currentGuess > userNumber)
     ) {
-      console.log("entered");
       Alert.alert("Do not lie", "You know this is wrong", [
         { text: "Sorry", style: "cancel" },
       ]);
@@ -66,6 +68,7 @@ function GameScreen({ userNumber, onGameOver }) {
     setguessRounds((prevGuessRounds) => [newRandomNumber, ...prevGuessRounds]);
   };
   const guessRoundsListlength = guessRounds.length;
+  
   return (
     <>
       <View style={styles.screen}>
@@ -114,7 +117,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 40,
-    alignItems: "center",
+    alignItems:"center"
   },
   buttonsContainer: {
     marginTop: 20,
@@ -126,8 +129,8 @@ const styles = StyleSheet.create({
   instructionText: {
     marginBottom: 12,
   },
-  listCOntainer: {
-    flex: 1,
-    padding: 16,
-  },
+  listCOntainer:{
+    flex:1,
+    padding:16
+  }
 });

@@ -38,7 +38,8 @@ export default function App() {
     setguessRounds(0)
   };
 
-  let screen = <StartGameScreen onConfirmationHandler={settingInput} />;
+  let     screen = <GameOverScreen userNumber={userNumber} roundsNumber={guessRounds} onStartNewGame={startNewGameHandler}/>;
+
 
   if (userNumber) {
     screen = (
