@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  FlatList,
-  StyleSheet,
-  View,
-} from "react-native";
+import { Alert, FlatList, StyleSheet, View } from "react-native";
 import Title from "../../components/UI/title";
 import NumberContainer from "../../components/game/NumberContainer";
 import PrimaryButton from "../../components/UI/primaryButton";
@@ -17,6 +12,10 @@ let minBoundary = 1;
 let maxBoundary = 100;
 
 const generateRandomBetween = (min, max, exclude) => {
+  if (min === max) {
+    return min;
+  }
+
   const randomNumber = Math.floor(Math.random() * (max - min)) + min;
 
   if (randomNumber === exclude) {
@@ -25,6 +24,7 @@ const generateRandomBetween = (min, max, exclude) => {
     return randomNumber;
   }
 };
+
 function GameScreen({ userNumber, onGameOver }) {
   const [initialGuess, setinitialGuess] = useState(
     generateRandomBetween(minBoundary, maxBoundary, userNumber)
@@ -45,7 +45,7 @@ function GameScreen({ userNumber, onGameOver }) {
 
   const nextGuessHandler = (direction) => {
     if (
-      (direction === "lower " && currentGuess < userNumber) ||
+      (direction === "lower" && currentGuess < userNumber) ||
       (direction === "greater" && currentGuess > userNumber)
     ) {
       Alert.alert("Do not lie", "You know this is wrong", [
@@ -54,11 +54,27 @@ function GameScreen({ userNumber, onGameOver }) {
       return;
     }
 
+    const generateRandomBetween = (min, max, exclude) => {
+      if (min === max) {
+        return min;
+      }
+
+      const randomNumber = Math.floor(Math.random() * (max - min)) + min;
+
+      if (randomNumber === exclude) {
+        return generateRandomBetween(min, max, exclude);
+      } else {
+        return randomNumber;
+      }
+    };
+
     if (direction === "lower") {
-      maxBoundary = currentGuess;
+      maxBoundary = Math.max(minBoundary, currentGuess - 1);
     } else {
-      minBoundary = currentGuess + 1;
+      minBoundary = Math.min(maxBoundary, currentGuess + 1);
     }
+
+    
     const newRandomNumber = generateRandomBetween(
       minBoundary,
       maxBoundary,
@@ -68,7 +84,7 @@ function GameScreen({ userNumber, onGameOver }) {
     setguessRounds((prevGuessRounds) => [newRandomNumber, ...prevGuessRounds]);
   };
   const guessRoundsListlength = guessRounds.length;
-  
+
   return (
     <>
       <View style={styles.screen}>
@@ -117,7 +133,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 40,
-    alignItems:"center"
+    alignItems: "center",
   },
   buttonsContainer: {
     marginTop: 20,
@@ -129,8 +145,8 @@ const styles = StyleSheet.create({
   instructionText: {
     marginBottom: 12,
   },
-  listCOntainer:{
-    flex:1,
-    padding:16
-  }
+  listCOntainer: {
+    flex: 1,
+    padding: 16,
+  },
 });
