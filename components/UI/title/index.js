@@ -1,4 +1,4 @@
-import { StyleSheet, Text, useWindowDimensions } from "react-native";
+import { Platform, StyleSheet, Text, useWindowDimensions } from "react-native";
 
 function Title({ children }) {
   const { height } = useWindowDimensions();
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "white",
     textAlign: "center",
-    borderWidth: 2,
+    borderWidth: Platform.select({ios:0,android:1}),
     borderColor: "white",
     padding: 12,
     maxWidth: "80%",

@@ -6,11 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 import GameScreen from "./screens/gameScreen";
 import Colors from "./constants/Colors";
 import GameOverScreen from "./screens/gameOverScreen";
-import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import * as Font from 'expo-font';
-
-
+import * as Font from "expo-font";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -73,21 +70,24 @@ export default function App() {
     return null;
   }
   return (
-    <LinearGradient
-      colors={[Colors.primary250, Colors.accent500]}
-      style={styles.rootScreen}
-      onLayout={onLayoutRootView}
-    >
-      <ImageBackground
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary250, Colors.accent500]}
         style={styles.rootScreen}
-        source={require("./assets/images/dices.jpg")}
-        resizeMode="cover"
-        imageStyle={styles.backgroundImage}
+        onLayout={onLayoutRootView}
       >
-        <StatusBar style="auto" />
-        <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          style={styles.rootScreen}
+          source={require("./assets/images/dices.jpg")}
+          resizeMode="cover"
+          imageStyle={styles.backgroundImage}
+        >
+          <StatusBar style="auto" />
+          <SafeAreaView style={styles.rootScreen}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 
