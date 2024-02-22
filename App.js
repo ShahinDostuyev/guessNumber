@@ -2,25 +2,34 @@ import { StatusBar } from "expo-status-bar";
 import { ImageBackground, StyleSheet, SafeAreaView } from "react-native";
 import StartGameScreen from "./screens/startGameScreen";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import GameScreen from "./screens/gameScreen";
 import Colors from "./constants/Colors";
 import GameOverScreen from "./screens/gameOverScreen";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from 'expo-font';
+
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [userNumber, setuserNumber] = useState("");
   const [isGameOver, setisGameOver] = useState(true);
   const [guessRounds, setguessRounds] = useState(0);
+  const [fontsLoaded, setfonstLoaded] = useState(false);
 
-  const [fontsLoaded] = useFonts({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-  });
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+        "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+      });
+      setfonstLoaded(true);
+    }
+
+    loadFonts();
+  }, []);
 
   const settingInput = (enteredText) => {
     setuserNumber(enteredText);
@@ -37,9 +46,7 @@ export default function App() {
     setguessRounds(0);
   };
 
-  let screen = (
-    <StartGameScreen onConfirmationHandler={settingInput} />
-  );
+  let screen = <StartGameScreen onConfirmationHandler={settingInput} />;
 
   if (userNumber) {
     screen = (
@@ -56,10 +63,20 @@ export default function App() {
     );
   }
 
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <LinearGradient
       colors={[Colors.primary250, Colors.accent500]}
       style={styles.rootScreen}
+      onLayout={onLayoutRootView}
     >
       <ImageBackground
         style={styles.rootScreen}
